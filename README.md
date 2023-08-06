@@ -5,7 +5,7 @@
 
 Dieses Repository kann als **Erweiterung** in MakeCode hinzugefügt werden.
 
-* öffne [https://makecode.calliope.cc/](makecode.calliope.cc)
+* öffne [makecode.calliope.cc](https://makecode.calliope.cc)
 * klicke auf die Projektvorlage **Calliope mini 2.x**
 * klicke auf **Erweiterungen** unter dem Zahnrad-Menü (oder bei den Blöcken ganz unten)
 * kopiere die folgende **Projekt-URL** in die Zwischenablage
