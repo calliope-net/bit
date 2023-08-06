@@ -1,9 +1,9 @@
 
-//% color=#004FCF icon="\uf120" block="BIT" weight=23
+//% color=#004FCF icon="\uf120" block="BIT" weight=22
 namespace bit
-/* 230805
-Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik
-keine Erweiterung für Hardware
+/* 230806 https://github.com/calliope-net/bit
+Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
+keine Hardware-Erweiterung
 
 Code neu programmiert von Lutz Elßner im Juli 2023
 */ {
@@ -12,7 +12,7 @@ Code neu programmiert von Lutz Elßner im Juli 2023
     export enum eAlign { left, right }
     export enum eLength {
         HEX_ = 0, HEX_F = 1, HEX_FF = 2, HEX_FFF = 3, HEX_FFFF = 4, HEX_FFFFFF = 6, HEX_FFFFFFFF = 8,
-        BIN_ = 0x100, BIN_1111 = 0x104, BIN_11111111 = 0x108, BIN_12_ = 0x10C, BIN_16_ = 0x110,
+        BIN_ = 0x100, BIN_1111 = 0x104, BIN_11111 = 0x105, BIN_111111 = 0x106, BIN_11111111 = 0x108, BIN_12_ = 0x10C, BIN_16_ = 0x110,
         toString = 0x1000
     }
 
@@ -163,5 +163,16 @@ Code neu programmiert von Lutz Elßner im Juli 2023
         }
         return blist
     }
+
+
+    // ========== group="Musik" advanced=true
+
+    //% group="Musik" advanced=true
+    //% block="beginMelody %pMelodyArray" weight=32
+    export function beginMelody(pMelodyArray: string[]) { music.beginMelody(pMelodyArray, MelodyOptions.Once) }
+
+    //% group="Musik" advanced=true
+    //% block="builtInMelody %pMelodies" weight=30
+    export function builtInMelody(pMelodies: Melodies) { return music.builtInMelody(pMelodies) }
 
 } // bit.ts
