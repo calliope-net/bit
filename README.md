@@ -19,6 +19,9 @@ Dieses Repository kann als **Erweiterung** in MakeCode hinzugefügt werden.
 
 ![](blocks.png)
 
+### Programmier-Beispiele, i2c-Module, Bilder, Bezugsquellen:
+* [Calliope i2c Beispiel-Projekt mit mehreren i2c Modulen gleichzeitig](https://calliope-net.github.io/i2c-test/)
+
 ### Updates
 
 > Um ein Update der Erweiterung von GitHub zu laden, klicke in der JavaScript Ansicht
