@@ -1,9 +1,11 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=22
 namespace bit
-/* 230806 https://github.com/calliope-net/bit
+/* 230806
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
+[Projekt-URL] https://github.com/calliope-net/bit
+[README]      https://calliope-net.github.io/bit/
 
 Code neu programmiert von Lutz Elßner im Juli 2023
 */ {
