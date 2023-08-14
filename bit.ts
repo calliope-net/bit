@@ -1,5 +1,5 @@
 
-//% color=#004FCF icon="\uf120" block="BIT" weight=22
+//% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
 /* 230806
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
