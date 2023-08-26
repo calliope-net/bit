@@ -1,15 +1,14 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
-/* 230806
+/* 230826
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
 [Projekt-URL] https://github.com/calliope-net/bit
 [README]      https://calliope-net.github.io/bit/
 
-Code neu programmiert von Lutz Elßner im Juli 2023
+Code neu programmiert von Lutz Elßner im Juli, August 2023
 */ {
-    // ========== group="Text (string)"
 
     export enum eAlign { left, right }
     export enum eLength {
@@ -17,6 +16,14 @@ Code neu programmiert von Lutz Elßner im Juli 2023
         BIN_ = 0x100, BIN_1111 = 0x104, BIN_11111 = 0x105, BIN_111111 = 0x106, BIN_11111111 = 0x108, BIN_12_ = 0x10C, BIN_16_ = 0x110,
         toString = 0x1000
     }
+
+
+
+    // ========== group="Text (string)"
+
+    //% group="Text (string)" weight=95
+    //% block="%s"
+    export function text(s: string): string { return s }
 
     //% group="Text (string)"
     //% block="wandle %pInt um in Text %plLength" weight=94
@@ -86,21 +93,23 @@ Code neu programmiert von Lutz Elßner im Juli 2023
 
     // ========== group="Zahl (number)"
 
-    // HEX Parameter
-    export enum H0 {
-        x0 = 0x0, x1 = 0x1, x2 = 0x2, x3 = 0x3, x4 = 0x4, x5 = 0x5, x6 = 0x6, x7 = 0x7,
-        x8 = 0x8, x9 = 0x9, xA = 0xA, xB = 0xB, xC = 0xC, xD = 0xD, xE = 0xE, xF = 0xF
-    }
-    export enum H4 {
-        x00 = 0x00, x10 = 0x10, x20 = 0x20, x30 = 0x30, x40 = 0x40, x50 = 0x50, x60 = 0x60, x70 = 0x70,
-        x80 = 0x80, x90 = 0x90, xA0 = 0xA0, xB0 = 0xB0, xC0 = 0xC0, xD0 = 0xD0, xE0 = 0xE0, xF0 = 0xF0
+    //% group="Zahl (number)"
+    //% block="%n" weight=89
+    export function zahl(n: number): number { return n }
+
+    //% group="Zahl (number)"
+    //% block="HEX %x4 %x0" weight=88
+    export function hex(x2: eHEX, x1: eHEX) {
+        return (x2 << 4) + x1
     }
 
     //% group="Zahl (number)"
-    //% block="HEX %x4 + %x0" weight=88
-    export function hex(x4: H4, x0: H0) {
-        return x4 + x0
+    //% block="HEX %x4 %x3 %x2 %x1" weight=87
+    //% inlineInputMode=inline
+    export function hex4(x4: eHEX, x3: eHEX, x2: eHEX, x1: eHEX) {
+        return (x4 << 12) + (x3 << 8) + (x2 << 4) + x1
     }
+
 
     //% group="Zahl (number)"
     //% block="charCodeAt %text index %index" weight=86
@@ -116,10 +125,34 @@ Code neu programmiert von Lutz Elßner im Juli 2023
         return parseInt(text, radix)
     }
 
-    //% group="Zahl (number)"
-    //% block="sign %i Bits 2**%exp" weight=82
+
+
+    // ========== advanced=true
+
+    // ========== group="Logik (number)"
+
+    export enum eBit { AND, OR, XOR, NOT_AND, LEFT, RIGHT }
+
+    //% group="Logik (number)" advanced=true
+    //% block="Bitweise %a %operator %b" weight=4
+    export function bitwise(a: number, operator: eBit, b: number): number {
+        if (operator == eBit.AND) { return a & b }
+        else if (operator == eBit.OR) { return a | b }
+        else if (operator == eBit.XOR) { return a ^ b }
+        else if (operator == eBit.NOT_AND) { return (~a) & b }
+        else if (operator == eBit.LEFT) { return a << b }
+        else if (operator == eBit.RIGHT) { return a >> b }
+        else { return a }
+    }
+
+    //% group="Logik (number)" advanced=true
+    //% block="Bitweise Not %a" weight=3
+    export function not(a: number): number { return ~a }
+
+    //% group="Logik (number)" advanced=true
+    //% block="sign %i Bits 2**%exp" weight=2
     //% exp.defl=7
-    export function sign(i: number, exp: number) {
+    export function sign(i: number, exp: number): number {
         //i = i2c.HEXe(i2c.H4.x40, i2c.H0.x1)
         if (i < 2 ** exp) { // 2**6 = 64 = 0x40
             return i
@@ -131,32 +164,21 @@ Code neu programmiert von Lutz Elßner im Juli 2023
         }
     }
 
-    export enum eBit { AND, OR, XOR, NOT_AND, LEFT_SHIFT, RIGHT_SHIFT }
 
-    //% group="Zahl (number)"
-    //% block="bitwise %a %operator %b" weight=80
-    export function bitwise(a: number, operator: eBit, b: number): number {
-        if (operator == eBit.AND) { return a & b }
-        else if (operator == eBit.OR) { return a | b }
-        else if (operator == eBit.XOR) { return a ^ b }
-        else if (operator == eBit.NOT_AND) { return (~a) & b }
-        else if (operator == eBit.LEFT_SHIFT) { return a << b }
-        else if (operator == eBit.RIGHT_SHIFT) { return a >> b }
-        else { return a }
-    }
+    // ========== group="Logik (boolean)"
 
-
-    // ========== group="Boolean"
-
-    //% group="Boolean"
-    //% block="%i0 zwischen %i1 und %i2" weight=50
-    export function between(i0: number, i1: number, i2: number) {
+    //% group="Logik (boolean)" advanced=true
+    //% block="%i0 zwischen %i1 und %i2"
+    export function between(i0: number, i1: number, i2: number): boolean {
         return (i0 >= i1 && i0 <= i2)
     }
 
-    //% group="Array boolean[]"
-    //% block="wandle %pInt um in Binär-Array" weight=40
-    export function bin(pInt: number) {
+
+    // ========== group="Array boolean[]" advanced=true
+
+    //% group="Array boolean[]" advanced=true
+    //% block="wandle %pInt um in Binär-Array"
+    export function toBinArray(pInt: number): boolean[] {
         let blist: boolean[] = []
         let bi: number = Math.trunc(pInt)
         while (bi > 0) {
@@ -167,14 +189,70 @@ Code neu programmiert von Lutz Elßner im Juli 2023
     }
 
 
-    // ========== group="Musik" advanced=true
+    // ========== group=  //Turn on the specified LED using x, y coordinates (x is horizontal, y is vertical). (0,0) is upper left.
+
+    //% group="Turn on the specified LED (x is horizontal, y is vertical). (0,0) is upper left." advanced=true
+    //% block="25 LED x %x y %y"
+    //% x.min=0 x.max=4
+    export function plot25LED(x: number, y: boolean[]) {
+        if (between(x, 0, 4)) {
+            if (y.length > 0 && y.get(0)) { led.plot(x, 4) } else { led.unplot(x, 4) }
+            if (y.length > 1 && y.get(1)) { led.plot(x, 3) } else { led.unplot(x, 3) }
+            if (y.length > 2 && y.get(2)) { led.plot(x, 2) } else { led.unplot(x, 2) }
+            if (y.length > 3 && y.get(3)) { led.plot(x, 1) } else { led.unplot(x, 1) }
+            if (y.length > 4 && y.get(4)) { led.plot(x, 0) } else { led.unplot(x, 0) }
+        }
+    }
+
+
+    // ========== group="Musik"
 
     //% group="Musik" advanced=true
-    //% block="beginMelody %pMelodyArray" weight=32
+    //% block="beginMelody %pMelodyArray" weight=3
     export function beginMelody(pMelodyArray: string[]) { music.beginMelody(pMelodyArray, MelodyOptions.Once) }
 
     //% group="Musik" advanced=true
-    //% block="builtInMelody %pMelodies" weight=30
+    //% block="builtInMelody %pMelodies" weight=2
     export function builtInMelody(pMelodies: Melodies) { return music.builtInMelody(pMelodies) }
+
+
+
+
+    // HEX Parameter
+    export enum eHEX {
+        //% block="0"
+        x0 = 0x0,
+        //% block="1"
+        x1 = 0x1,
+        //% block="2"
+        x2 = 0x2,
+        //% block="3"
+        x3 = 0x3,
+        //% block="4"
+        x4 = 0x4,
+        //% block="5"
+        x5 = 0x5,
+        //% block="6"
+        x6 = 0x6,
+        //% block="7"
+        x7 = 0x7,
+        //% block="8"
+        x8 = 0x8,
+        //% block="9"
+        x9 = 0x9,
+        //% block="A"
+        xA = 0xA,
+        //% block="B"
+        xB = 0xB,
+        //% block="C"
+        xC = 0xC,
+        //% block="D"
+        xD = 0xD,
+        //% block="E"
+        xE = 0xE,
+        //% block="F"
+        xF = 0xF
+    }
+
 
 } // bit.ts
