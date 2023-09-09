@@ -9,7 +9,8 @@
         "README.md",
         "main.blocks",
         "main.ts",
-        "bit.ts"
+        "bit.ts",
+        "bit-enum.ts"
     ],
     "testFiles": [
         "test.ts"
@@ -23,5 +24,5 @@
         "calliopemini",
         "microbit"
     ],
-    "preferredEditor": "blocksprj"
+    "preferredEditor": "tsprj"
 }
