@@ -1,13 +1,14 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
-/* 230826
+/* 230826 230909 https://github.com/calliope-net/bit
+
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
 [Projekt-URL] https://github.com/calliope-net/bit
 [README]      https://calliope-net.github.io/bit/
 
-Code neu programmiert von Lutz Elßner im Juli, August 2023
+Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 */ {
 
     export enum eAlign { left, right }
@@ -21,9 +22,10 @@ Code neu programmiert von Lutz Elßner im Juli, August 2023
 
     // ========== group="Text (string)"
 
+    //% blockId=bit_text
     //% group="Text (string)" weight=95
     //% block="%s"
-    export function text(s: string): string { return s }
+    export function bit_text(s: string): string { return s }
 
     //% group="Text (string)"
     //% block="wandle %pInt um in Text %plLength" weight=94
@@ -93,32 +95,37 @@ Code neu programmiert von Lutz Elßner im Juli, August 2023
 
     // ========== group="Zahl (number)"
 
-    //% group="Zahl (number)"
-    //% block="%n" weight=89
-    export function zahl(n: number): number { return n }
 
+    //% blockId=bit_zahl
     //% group="Zahl (number)"
-    //% block="HEX %x2 %x1" weight=88
-    export function hex(x2: eHEX, x1: eHEX) {
-        return (x2 << 4) + x1
-    }
-
-    //% group="Zahl (number)"
-    //% block="HEX %x4 %x3 %x2 %x1" weight=87
-    //% inlineInputMode=inline
-    export function hex4(x4: eHEX, x3: eHEX, x2: eHEX, x1: eHEX) {
-        return (x4 << 12) + (x3 << 8) + (x2 << 4) + x1
-    }
+    //% block="%n" weight=9
+    export function bit_zahl(n: number): number { return n }
 
 
+    /* verlegt nach bit-enum.ts
+    
+        //% group="Zahl (number)"
+        // block="HEX %x2 %x1" weight=88
+        function hex(x2: eHEX4bit, x1: eHEX4bit) {
+            return (x2 << 4) + x1
+        }
+    
+        //% group="Zahl (number)"
+        //% block="HEX %x4 %x3 %x2 %x1" weight=87
+        //% inlineInputMode=inline
+        function hex4(x4: eHEX4bit, x3: eHEX4bit, x2: eHEX4bit, x1: eHEX4bit) {
+            return (x4 << 12) + (x3 << 8) + (x2 << 4) + x1
+        }
+     */
+
     //% group="Zahl (number)"
-    //% block="charCodeAt %text index %index" weight=86
+    //% block="charCodeAt %text index %index" weight=3
     export function charCodeAt(text: string, index: number) {
         return text.charCodeAt(index)
     }
 
     //% group="Zahl (number)"
-    //% block="parseInt %text radix %radix" weight=84
+    //% block="parseInt %text radix %radix" weight=2
     //% radix.min=2 radix.max=36 radix.default=2
     //% radix.defl=2
     export function parseint(text: string, radix: number) {
@@ -217,42 +224,42 @@ Code neu programmiert von Lutz Elßner im Juli, August 2023
 
 
 
-
-    // HEX Parameter
-    export enum eHEX {
-        //% block="0"
-        x0 = 0x0,
-        //% block="1"
-        x1 = 0x1,
-        //% block="2"
-        x2 = 0x2,
-        //% block="3"
-        x3 = 0x3,
-        //% block="4"
-        x4 = 0x4,
-        //% block="5"
-        x5 = 0x5,
-        //% block="6"
-        x6 = 0x6,
-        //% block="7"
-        x7 = 0x7,
-        //% block="8"
-        x8 = 0x8,
-        //% block="9"
-        x9 = 0x9,
-        //% block="A"
-        xA = 0xA,
-        //% block="B"
-        xB = 0xB,
-        //% block="C"
-        xC = 0xC,
-        //% block="D"
-        xD = 0xD,
-        //% block="E"
-        xE = 0xE,
-        //% block="F"
-        xF = 0xF
-    }
-
+    /* 
+        // HEX Parameter
+        export enum eHEX {
+            //% block="0"
+            x0 = 0x0,
+            //% block="1"
+            x1 = 0x1,
+            //% block="2"
+            x2 = 0x2,
+            //% block="3"
+            x3 = 0x3,
+            //% block="4"
+            x4 = 0x4,
+            //% block="5"
+            x5 = 0x5,
+            //% block="6"
+            x6 = 0x6,
+            //% block="7"
+            x7 = 0x7,
+            //% block="8"
+            x8 = 0x8,
+            //% block="9"
+            x9 = 0x9,
+            //% block="A"
+            xA = 0xA,
+            //% block="B"
+            xB = 0xB,
+            //% block="C"
+            xC = 0xC,
+            //% block="D"
+            xD = 0xD,
+            //% block="E"
+            xE = 0xE,
+            //% block="F"
+            xF = 0xF
+        }
+     */
 
 } // bit.ts

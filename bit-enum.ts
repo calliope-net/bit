@@ -1,10 +1,28 @@
-// Gib deinen Code hier ein
+
 namespace bit
-{
+/* 230909 https://github.com/calliope-net/bit
+
+*/ {
+
+    //% blockId=bit_hex4
+    //% group="Zahl (number)" weight=6
+    //% block="%x0"
+    export function bit_hex4(x0: eHEX4bit) { return x0 }
+
+    //% blockId=bit_hex8
+    //% group="Zahl (number)" weight=5
+    //% block="%x0"
+    export function bit_hex8(x0: eHEX8bit) { return x0 }
+
+    //% blockId=bit_hex16
+    //% group="Zahl (number)" weight=4
+    //% block="%x8 %x0"
+    export function bit_hex16(x8: eHEX8bit, x0: eHEX8bit) { return (x8 << 8) + x0 }
+
 
 
     // HEX Parameter
-    export enum eHEX4 {
+    export enum eHEX4bit {
         //% block="0"
         x0 = 0x0,
         //% block="1"
@@ -39,7 +57,7 @@ namespace bit
         xF = 0xF
     }
 
-    export enum eHEX8 {
+    export enum eHEX8bit {
         //% block="00"
         x00 = 0x0,
         //% block="01"
@@ -554,4 +572,4 @@ namespace bit
         xFF = 0xFF
     }
 
-}
+} // bit-enum.ts
