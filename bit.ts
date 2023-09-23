@@ -1,7 +1,7 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
-/* 230826 230909 https://github.com/calliope-net/bit
+/* 230826 230923 https://github.com/calliope-net/bit
 
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
@@ -138,7 +138,22 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     // ========== group="Logik (number)"
 
-    export enum eBit { AND, OR, XOR, NOT_AND, LEFT, RIGHT }
+    export enum eBit {
+        //% block="a & b AND"
+        AND,
+        //% block="a | b OR"
+        OR,
+        //% block="a ^ b XOR"
+        XOR,
+        //% block="(~a) & b (NOT a) AND b"
+        NOT_AND,
+        //% block="a << b"
+        LEFT,
+        //% block="a >> b"
+        RIGHT,
+        //% block="a >>> b"
+        RIGHTZ
+    }
 
     //% group="Logik (number)" advanced=true
     //% block="Bitweise %a %operator %b" weight=4
@@ -149,6 +164,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
         else if (operator == eBit.NOT_AND) { return (~a) & b }
         else if (operator == eBit.LEFT) { return a << b }
         else if (operator == eBit.RIGHT) { return a >> b }
+        else if (operator == eBit.RIGHTZ) { return a >>> b }
         else { return a }
     }
 
@@ -175,9 +191,20 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     // ========== group="Logik (boolean)"
 
     //% group="Logik (boolean)" advanced=true
-    //% block="%i0 zwischen %i1 und %i2"
+    //% block="%i0 zwischen %i1 und %i2" weight=4
     export function between(i0: number, i1: number, i2: number): boolean {
         return (i0 >= i1 && i0 <= i2)
+    }
+
+    //% group="Logik (boolean)" advanced=true
+    //% block="%pInt Bit an Position 2 ** %exp" weight=2
+    //% exp.min=0 exp.max=63
+    export function bitBool(pInt: number, exp: number) {
+        exp = Math.trunc(exp)
+        if (between(exp, 0, 63))
+            return (pInt & 2 ** exp) != 0
+        else
+            return false
     }
 
 
