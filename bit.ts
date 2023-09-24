@@ -1,7 +1,7 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
-/* 230826 230923 https://github.com/calliope-net/bit
+/* 230826 230924 https://github.com/calliope-net/bit
 
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
@@ -23,29 +23,29 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     // ========== group="Text (string)"
 
     //% blockId=bit_text
-    //% group="Text (string)" weight=95
+    //% group="Text (string)" weight=9
     //% block="%s"
     export function bit_text(s: string): string { return s }
 
     //% group="Text (string)"
-    //% block="wandle %pInt um in Text %plLength" weight=94
+    //% block="wandle %pInt um in Text %plLength" weight=8
     //% pLength.defl=bit.eLength.HEX_FF
     export function formatNumber(pInt: number, pLength: eLength) {
         let ht: string = ""
         let hi: number = Math.trunc(pInt)
-
-        if (hi < 0) { // negative number behandeln, links unerwünschte FF abschneiden
-            hi = ~(Math.abs(hi) - 1)
-            if (pLength == eLength.HEX_F || pLength == eLength.BIN_1111) { hi = hi & 0xF }
-            else if (pLength == eLength.HEX_FF || pLength == eLength.BIN_11111111) { hi = hi & 0xFF }
-            else if (pLength == eLength.HEX_FFF || pLength == eLength.BIN_12_) { hi = hi & 0xFFF }
-            else if (pLength == eLength.HEX_FFFF || pLength == eLength.BIN_16_) { hi = hi & 0xFFFF }
-            else if (pLength == eLength.HEX_FFFFFF) { hi = hi & 0xFFFFFF }
-            else if (pLength == eLength.HEX_FFFFFFFF) { hi = hi & 0xFFFFFFFF }
-            else if (pLength == eLength.toString) { }
-            else { hi = hi & 0xFF } // Standard 8 Bit
-        }
-
+        /* 
+                if (hi < 0) { // negative number behandeln, links unerwünschte FF abschneiden
+                    hi = ~(Math.abs(hi) - 1)
+                    if (pLength == eLength.HEX_F || pLength == eLength.BIN_1111) { hi = hi & 0xF }
+                    else if (pLength == eLength.HEX_FF || pLength == eLength.BIN_11111111) { hi = hi & 0xFF }
+                    else if (pLength == eLength.HEX_FFF || pLength == eLength.BIN_12_) { hi = hi & 0xFFF }
+                    else if (pLength == eLength.HEX_FFFF || pLength == eLength.BIN_16_) { hi = hi & 0xFFFF }
+                    else if (pLength == eLength.HEX_FFFFFF) { hi = hi & 0xFFFFFF }
+                    else if (pLength == eLength.HEX_FFFFFFFF) { hi = hi & 0xFFFFFFFF }
+                    else if (pLength == eLength.toString) { }
+                    else { hi = hi & 0xFF } // Standard 8 Bit
+                }
+         */
         if (pLength < eLength.BIN_) {
             // HEX pLength = 0, 1, 2, 3, 4, 6, 8
             while (hi > 0) {
@@ -72,7 +72,16 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
     //% group="Text (string)"
-    //% block="format %pText length %pLength align %pFormat" weight=92
+    //% block="wandle %pNumber um in HEX %pFormat" weight=7
+    //% pFormat.defl=NumberFormat.UInt8BE
+    export function formatHex(pNumber: number, pFormat: NumberFormat) {
+        let bu = Buffer.create(Buffer.sizeOfNumberFormat(pFormat))
+        bu.setNumber(pFormat, 0, pNumber)
+        return bu.toHex()
+    }
+
+    //% group="Text (string)"
+    //% block="format %pText length %pLength align %pFormat" weight=6
     export function formatText(pText: string, pLength: number, pFormat: eAlign) {
         if (pText.length > pLength) { return pText.substr(0, pLength) }
         else if (pText.length < pLength && pFormat == eAlign.left) { return pText + replicate(" ", pLength - pText.length) }
@@ -81,7 +90,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
     //% group="Text (string)"
-    //% block="replicate Char %pChar length %pLength" weight=90
+    //% block="replicate Char %pChar length %pLength" weight=5
     export function replicate(pChar: string, pLength: number) {
         let s: string = ""
         if (pChar.length > 0 && pLength > 0) {
@@ -102,21 +111,6 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     export function bit_zahl(n: number): number { return n }
 
 
-    /* verlegt nach bit-enum.ts
-    
-        //% group="Zahl (number)"
-        // block="HEX %x2 %x1" weight=88
-        function hex(x2: eHEX4bit, x1: eHEX4bit) {
-            return (x2 << 4) + x1
-        }
-    
-        //% group="Zahl (number)"
-        //% block="HEX %x4 %x3 %x2 %x1" weight=87
-        //% inlineInputMode=inline
-        function hex4(x4: eHEX4bit, x3: eHEX4bit, x2: eHEX4bit, x1: eHEX4bit) {
-            return (x4 << 12) + (x3 << 8) + (x2 << 4) + x1
-        }
-     */
 
     //% group="Zahl (number)"
     //% block="charCodeAt %text index %index" weight=3
@@ -172,34 +166,44 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     //% block="Bitweise Not %a" weight=3
     export function not(a: number): number { return ~a }
 
-    //% group="Logik (number)" advanced=true
-    //% block="sign %i Bits 2**%exp" weight=2
-    //% exp.defl=7
-    export function sign(i: number, exp: number): number {
-        //i = i2c.HEXe(i2c.H4.x40, i2c.H0.x1)
-        if (i < 2 ** exp) { // 2**6 = 64 = 0x40
-            return i
-        } else {
-            i = ~i // Bitwise Not
-            i = i & ((2 ** exp) - 1) // 63 = 0x3F alle Bits links löschen
-            i += 1
-            return -i
+    /* 
+        // group="Logik (number)" advanced=true
+        // block="sign %i Bits 2**%exp" weight=2
+        // exp.defl=7
+        function sign(i: number, exp: number): number {
+            //i = i2c.HEXe(i2c.H4.x40, i2c.H0.x1)
+            if (i < 2 ** exp) { // 2**6 = 64 = 0x40
+                return i
+            } else {
+                i = ~i // Bitwise Not
+                i = i & ((2 ** exp) - 1) // 63 = 0x3F alle Bits links löschen
+                i += 1
+                return -i
+            }
         }
+     */
+
+    //% group="Logik (number)" advanced=true
+    //% block="Zahl %pInt setBit 2** %exp %pBit" weight=1
+    //% exp.min=0 exp.max=31
+    export function setBit(pInt: number, exp: number, pBit: boolean) {
+        exp = Math.trunc(exp)
+        if (between(exp, 0, 63)) {
+            if (pBit)
+                return pInt | 2 ** exp
+            else
+                return pInt & ~(2 ** exp)
+        } else
+            return pInt
     }
 
 
     // ========== group="Logik (boolean)"
 
     //% group="Logik (boolean)" advanced=true
-    //% block="%i0 zwischen %i1 und %i2" weight=4
-    export function between(i0: number, i1: number, i2: number): boolean {
-        return (i0 >= i1 && i0 <= i2)
-    }
-
-    //% group="Logik (boolean)" advanced=true
-    //% block="%pInt Bit an Position 2 ** %exp" weight=2
-    //% exp.min=0 exp.max=63
-    export function bitBool(pInt: number, exp: number) {
+    //% block="Zahl %pInt getBit 2** %exp" weight=5
+    //% exp.min=0 exp.max=31
+    export function getBit(pInt: number, exp: number): boolean {
         exp = Math.trunc(exp)
         if (between(exp, 0, 63))
             return (pInt & 2 ** exp) != 0
@@ -207,6 +211,11 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
             return false
     }
 
+    //% group="Logik (boolean)" advanced=true
+    //% block="%i0 zwischen %i1 und %i2" weight=4
+    export function between(i0: number, i1: number, i2: number): boolean {
+        return (i0 >= i1 && i0 <= i2)
+    }
 
     // ========== group="Array boolean[]" advanced=true
 
@@ -250,43 +259,5 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     export function builtInMelody(pMelodies: Melodies) { return music.builtInMelody(pMelodies) }
 
 
-
-    /* 
-        // HEX Parameter
-        export enum eHEX {
-            //% block="0"
-            x0 = 0x0,
-            //% block="1"
-            x1 = 0x1,
-            //% block="2"
-            x2 = 0x2,
-            //% block="3"
-            x3 = 0x3,
-            //% block="4"
-            x4 = 0x4,
-            //% block="5"
-            x5 = 0x5,
-            //% block="6"
-            x6 = 0x6,
-            //% block="7"
-            x7 = 0x7,
-            //% block="8"
-            x8 = 0x8,
-            //% block="9"
-            x9 = 0x9,
-            //% block="A"
-            xA = 0xA,
-            //% block="B"
-            xB = 0xB,
-            //% block="C"
-            xC = 0xC,
-            //% block="D"
-            xD = 0xD,
-            //% block="E"
-            xE = 0xE,
-            //% block="F"
-            xF = 0xF
-        }
-     */
 
 } // bit.ts
