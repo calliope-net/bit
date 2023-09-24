@@ -73,7 +73,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     //% group="Text (string)"
     //% block="wandle %pNumber um in HEX %pFormat" weight=7
-    //% pFormat.defl=NumberFormat.UInt8BE
+    //% pFormat.defl=NumberFormat.UInt16BE
     export function formatHex(pNumber: number, pFormat: NumberFormat) {
         let bu = Buffer.create(Buffer.sizeOfNumberFormat(pFormat))
         bu.setNumber(pFormat, 0, pNumber)
@@ -163,7 +163,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
     //% group="Logik (number)" advanced=true
-    //% block="Bitweise Not %a" weight=3
+    //% block="Bitweise NOT %a" weight=3
     export function not(a: number): number { return ~a }
 
     /* 

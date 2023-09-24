@@ -7,17 +7,17 @@ namespace bit
     //% blockId=bit_hex4
     //% group="Zahl (number)" weight=6
     //% block="%x0"
-    export function bit_hex4(x0: eHEX4bit) { return x0 }
+    export function hex4(x0: eHEX4bit) { return x0 }
 
     //% blockId=bit_hex8
     //% group="Zahl (number)" weight=5
     //% block="%x0"
-    export function bit_hex8(x0: eHEX8bit) { return x0 }
+    export function hex8(x0: eHEX8bit) { return x0 }
 
     //% blockId=bit_hex16
     //% group="Zahl (number)" weight=4
     //% block="%x8 %x0"
-    export function bit_hex16(x8: eHEX8bit, x0: eHEX8bit) { return (x8 << 8) + x0 }
+    export function hex16(x8: eHEX8bit, x0: eHEX8bit) { return (x8 << 8) + x0 }
 
 
 
