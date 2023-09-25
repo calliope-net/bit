@@ -1,7 +1,7 @@
 
 //% color=#004FCF icon="\uf120" block="BIT" weight=26
 namespace bit
-/* 230826 230924 https://github.com/calliope-net/bit
+/* 230826 230925 https://github.com/calliope-net/bit
 
 Calliope zusätzliche Blöcke zur Formatierung von Text und Zahlen, Logik,
 keine Hardware-Erweiterung
@@ -90,7 +90,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
     //% group="Text (string)"
-    //% block="replicate Char %pChar length %pLength" weight=5
+    //% block="wiederhole Char %pChar length %pLength" weight=5
     export function replicate(pChar: string, pLength: number) {
         let s: string = ""
         if (pChar.length > 0 && pLength > 0) {
@@ -166,22 +166,22 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     //% block="Bitweise NOT %a" weight=3
     export function not(a: number): number { return ~a }
 
-    /* 
-        // group="Logik (number)" advanced=true
-        // block="sign %i Bits 2**%exp" weight=2
-        // exp.defl=7
-        function sign(i: number, exp: number): number {
-            //i = i2c.HEXe(i2c.H4.x40, i2c.H0.x1)
-            if (i < 2 ** exp) { // 2**6 = 64 = 0x40
-                return i
-            } else {
-                i = ~i // Bitwise Not
-                i = i & ((2 ** exp) - 1) // 63 = 0x3F alle Bits links löschen
-                i += 1
-                return -i
-            }
+
+    //% group="Logik (number)" advanced=true
+    //% block="Vorzeichen %i Bits 2** %exp" weight=2
+    //% exp.defl=7
+    export function sign(i: number, exp: number): number {
+        //i = i2c.HEXe(i2c.H4.x40, i2c.H0.x1)
+        if (i < 2 ** exp) { // 2**6 = 64 = 0x40
+            return i
+        } else {
+            i = ~i // Bitwise Not
+            i = i & ((2 ** exp) - 1) // 63 = 0x3F alle Bits links löschen
+            i += 1
+            return -i
         }
-     */
+    }
+
 
     //% group="Logik (number)" advanced=true
     //% block="Zahl %pInt setBit 2** %exp %pBit" weight=1
