@@ -5,21 +5,65 @@ namespace bit
 */ {
 
     //% blockId=bit_hex4
-    //% group="Zahl (number)" weight=6
+    //% group="Zahl (number)" weight=16
     //% block="%x0"
     export function hex4(x0: eHEX4bit) { return x0 }
 
     //% blockId=bit_hex8
-    //% group="Zahl (number)" weight=5
+    //% group="Zahl (number)" weight=15
     //% block="%x0"
     export function hex8(x0: eHEX8bit) { return x0 }
 
     //% blockId=bit_hex16
-    //% group="Zahl (number)" weight=4
+    //% group="Zahl (number)" weight=14
     //% block="%x8 %x0"
     export function hex16(x8: eHEX8bit, x0: eHEX8bit) { return (x8 << 8) + x0 }
 
+    //% blockId=bit_bin4
+    //% group="Zahl (number)" weight=13
+    //% block="%b0"
+    export function bin4(b0: eBIN4bit) { return b0 }
 
+    //% blockId=bit_bin8
+    //% group="Zahl (number)" weight=12
+    //% block="%b4 %b0"
+    export function bin8(b4: eBIN4bit, b0: eBIN4bit) { return (b4 << 4) + b0 }
+
+
+    export enum eBIN4bit {
+        //% block="0000"
+        x0 = 0x0,
+        //% block="0001"
+        x1 = 0x1,
+        //% block="0010"
+        x2 = 0x2,
+        //% block="0011"
+        x3 = 0x3,
+        //% block="0100"
+        x4 = 0x4,
+        //% block="0101"
+        x5 = 0x5,
+        //% block="0110"
+        x6 = 0x6,
+        //% block="0111"
+        x7 = 0x7,
+        //% block="1000"
+        x8 = 0x8,
+        //% block="1001"
+        x9 = 0x9,
+        //% block="1010"
+        xA = 0xA,
+        //% block="1011"
+        xB = 0xB,
+        //% block="1100"
+        xC = 0xC,
+        //% block="1101"
+        xD = 0xD,
+        //% block="1110"
+        xE = 0xE,
+        //% block="1111"
+        xF = 0xF
+    }
 
     // HEX Parameter
     export enum eHEX4bit {

@@ -107,7 +107,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     //% blockId=bit_zahl
     //% group="Zahl (number)"
-    //% block="%n" weight=9
+    //% block="%n" weight=90
     export function bit_zahl(n: number): number { return n }
 
 
@@ -119,11 +119,15 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
     //% group="Zahl (number)"
-    //% block="parseInt %text radix %radix" weight=2
-    //% radix.min=2 radix.max=36 radix.default=2
-    //% radix.defl=2
-    export function parseint(text: string, radix: number) {
-        return parseInt(text, radix)
+    //% block="parseInt %text || radix %radix" weight=2
+    //% radix.min=2 radix.max=16 radix.defl=10
+    export function parseint(text: string, radix?: number) {
+        if (radix == 10 && text.length >= 3 && text.substr(0, 2).toLowerCase() == "0b")
+            return parseInt(text.substr(2), 2) // 0b -> BIN
+        else if (radix == 10)
+            return parseInt(text) // 0x.. -> HEX sonst -> DEZ
+        else
+            return parseInt(text, radix)
     }
 
 
@@ -152,14 +156,25 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     //% group="Logik (number)" advanced=true
     //% block="Bitweise %a %operator %b" weight=4
     export function bitwise(a: number, operator: eBit, b: number): number {
-        if (operator == eBit.AND) { return a & b }
-        else if (operator == eBit.OR) { return a | b }
-        else if (operator == eBit.XOR) { return a ^ b }
-        else if (operator == eBit.NOT_AND) { return (~a) & b }
-        else if (operator == eBit.LEFT) { return a << b }
-        else if (operator == eBit.RIGHT) { return a >> b }
-        else if (operator == eBit.RIGHTZ) { return a >>> b }
-        else { return a }
+        switch (operator) {
+            case eBit.AND: { return a & b }
+            case eBit.OR: { return a | b }
+            case eBit.XOR: { return a ^ b }
+            case eBit.NOT_AND: { return (~a) & b }
+            case eBit.LEFT: { return a << b }
+            case eBit.RIGHT: { return a >> b }
+            case eBit.RIGHTZ: { return a >>> b }
+            default: { return a }
+        }
+        /*         if (operator == eBit.AND) { return a & b }
+                else if (operator == eBit.OR) { return a | b }
+                else if (operator == eBit.XOR) { return a ^ b }
+                else if (operator == eBit.NOT_AND) { return (~a) & b }
+                else if (operator == eBit.LEFT) { return a << b }
+                else if (operator == eBit.RIGHT) { return a >> b }
+                else if (operator == eBit.RIGHTZ) { return a >>> b }
+                else { return a }
+         */
     }
 
     //% group="Logik (number)" advanced=true
@@ -234,8 +249,8 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     // ========== group=  //Turn on the specified LED using x, y coordinates (x is horizontal, y is vertical). (0,0) is upper left.
 
-    //% group="Turn on the specified LED (x is horizontal, y is vertical). (0,0) is upper left." advanced=true
-    //% block="25 LED x %x y %y"
+    //% group="Turn on the specified LED (x is horizontal, y is vertical)." advanced=true
+    //% block="25 LED x→ %x y↑ %y"
     //% x.min=0 x.max=4
     export function plot25LED(x: number, y: boolean[]) {
         if (between(x, 0, 4)) {
