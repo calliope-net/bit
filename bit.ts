@@ -206,9 +206,9 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
 
-    // ========== group="ein Bit lesen und ändern" advanced=true
+    // ========== group="ein Bit aus Number (bis 32 Bit) lesen und ändern" advanced=true
 
-    //% group="ein Bit lesen und ändern" advanced=true
+    //% group="ein Bit aus Number (bis 32 Bit) lesen und ändern" advanced=true
     //% block="Zahl %pInt getBit 2** %exp" weight=4
     //% exp.min=0 exp.max=31
     export function getBit(pInt: number, exp: number): boolean {
@@ -219,7 +219,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
             return false
     }
 
-    //% group="ein Bit lesen und ändern" advanced=true
+    //% group="ein Bit aus Number (bis 32 Bit) lesen und ändern" advanced=true
     //% block="Zahl %pInt setBit 2** %exp %pBit" weight=2
     //% exp.min=0 exp.max=31
     export function setBit(pInt: number, exp: number, pBit: boolean) {
@@ -232,6 +232,37 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
         } else
             return pInt
     }
+
+    // ========== group="ein Byte aus Number (bis 64 Bit) lesen und ändern" advanced=true
+
+    //% group="ein Byte aus Number (bis 64 Bit) lesen und ändern" advanced=true
+    //% block="Zahl %pNumber getByte %pNumberFormat Offset %off" weight=4
+    //% pNumberFormat.defl=NumberFormat.UInt32LE
+    //% off.min=0 off.max=7
+    export function getByte(pNumber: number, pNumberFormat: NumberFormat, off: number) {
+        if (between(off, 0, Buffer.sizeOfNumberFormat(pNumberFormat) - 1)) {
+            let bu = Buffer.create(Buffer.sizeOfNumberFormat(pNumberFormat))
+            bu.setNumber(pNumberFormat, 0, pNumber)
+            return bu.getUint8(off)
+        } else
+            return 0
+    }
+
+    //% group="ein Byte aus Number (bis 64 Bit) lesen und ändern" advanced=true
+    //% block="Zahl %pNumber setByte %pNumberFormat Offset %off Byte %byte" weight=2
+    //% pNumberFormat.defl=NumberFormat.UInt32LE
+    //% off.min=0 off.max=7
+    //% inlineInputMode=inline
+    export function setByte(pNumber: number, pNumberFormat: NumberFormat, off: number, byte: number) {
+        if (between(off, 0, Buffer.sizeOfNumberFormat(pNumberFormat) - 1) && between(byte, 0x00, 0xFF)) {
+            let bu = Buffer.create(Buffer.sizeOfNumberFormat(pNumberFormat))
+            bu.setNumber(pNumberFormat, 0, pNumber)
+            bu.setUint8(off, byte)
+            pNumber = bu.getNumber(pNumberFormat, 0)
+        }
+        return pNumber
+    }
+
 
 
     // ========== group="Array boolean[]" advanced=true
