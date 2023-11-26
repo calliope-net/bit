@@ -107,19 +107,21 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     //% blockId=bit_zahl
     //% group="Zahl (number)"
-    //% block="%n" weight=90
+    //% block="%n" weight=19
     export function bit_zahl(n: number): number { return n }
 
 
+    // weight 16,15,14,13,12 in bit-enum.ts
+
 
     //% group="Zahl (number)"
-    //% block="charCodeAt %text index %index" weight=3
+    //% block="charCodeAt %text index %index" weight=6
     export function charCodeAt(text: string, index: number) {
         return text.charCodeAt(index)
     }
 
     //% group="Zahl (number)"
-    //% block="parseInt %text || radix %radix" weight=2
+    //% block="parseInt %text || radix %radix" weight=4
     //% radix.min=2 radix.max=16 radix.defl=10
     export function parseint(text: string, radix?: number) {
         if (radix == 10 && text.length >= 3 && text.substr(0, 2).toLowerCase() == "0b")
@@ -129,6 +131,11 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
         else
             return parseInt(text, radix)
     }
+
+    //% group="Zahl (number)"
+    //% block="roundWithPrecision number %x digits %digits" weight=2
+    //% digits.min=0 digits.max=4 digits.defl=2
+    export function roundWithPrecision(x: number, digits: number) { return Math.roundWithPrecision(x, digits) }
 
 
 
@@ -166,15 +173,6 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
             case eBit.RIGHTZ: { return a >>> b }
             default: { return a }
         }
-        /*         if (operator == eBit.AND) { return a & b }
-                else if (operator == eBit.OR) { return a | b }
-                else if (operator == eBit.XOR) { return a ^ b }
-                else if (operator == eBit.NOT_AND) { return (~a) & b }
-                else if (operator == eBit.LEFT) { return a << b }
-                else if (operator == eBit.RIGHT) { return a >> b }
-                else if (operator == eBit.RIGHTZ) { return a >>> b }
-                else { return a }
-         */
     }
 
     //% group="Logik (number)" advanced=true
@@ -198,8 +196,31 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     }
 
 
-    //% group="Logik (number)" advanced=true
-    //% block="Zahl %pInt setBit 2** %exp %pBit" weight=1
+    // ========== group="Logik (boolean)"
+
+
+    //% group="Logik (boolean)" advanced=true
+    //% block="%i0 zwischen %i1 und %i2" weight=1
+    export function between(i0: number, i1: number, i2: number): boolean {
+        return (i0 >= i1 && i0 <= i2)
+    }
+
+
+    // ========== group="ein Bit lesen und ändern" advanced=true
+
+    //% group="ein Bit lesen und ändern" advanced=true
+    //% block="Zahl %pInt getBit 2** %exp" weight=4
+    //% exp.min=0 exp.max=31
+    export function getBit(pInt: number, exp: number): boolean {
+        exp = Math.trunc(exp)
+        if (between(exp, 0, 63))
+            return (pInt & 2 ** exp) != 0
+        else
+            return false
+    }
+
+    //% group="ein Bit lesen und ändern" advanced=true
+    //% block="Zahl %pInt setBit 2** %exp %pBit" weight=2
     //% exp.min=0 exp.max=31
     export function setBit(pInt: number, exp: number, pBit: boolean) {
         exp = Math.trunc(exp)
@@ -212,25 +233,6 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
             return pInt
     }
 
-
-    // ========== group="Logik (boolean)"
-
-    //% group="Logik (boolean)" advanced=true
-    //% block="Zahl %pInt getBit 2** %exp" weight=5
-    //% exp.min=0 exp.max=31
-    export function getBit(pInt: number, exp: number): boolean {
-        exp = Math.trunc(exp)
-        if (between(exp, 0, 63))
-            return (pInt & 2 ** exp) != 0
-        else
-            return false
-    }
-
-    //% group="Logik (boolean)" advanced=true
-    //% block="%i0 zwischen %i1 und %i2" weight=4
-    export function between(i0: number, i1: number, i2: number): boolean {
-        return (i0 >= i1 && i0 <= i2)
-    }
 
     // ========== group="Array boolean[]" advanced=true
 
