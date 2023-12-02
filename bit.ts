@@ -101,6 +101,11 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
         return s
     }
 
+    //% group="Text (string)"
+    //% block="// %text" weight=4
+    export function comment(text: string): void { }
+
+
 
     // ========== group="Zahl (number)"
 
