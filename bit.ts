@@ -313,4 +313,37 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
 
 
+    // adapted to Calliope mini V2 Core by M.Klein 17.09.2020
+    /**
+     * Create a new driver of Grove - Ultrasonic Sensor to measure distances in cm
+     * @param pin signal pin of ultrasonic ranger module
+     */
+    //% group="Ultraschall" advanced=true
+    //% block="%pin Entfernung (cm)"
+    //% pin.fieldEditor="gridpicker" pin.fieldOptions.columns=4
+    //% pin.fieldOptions.tooltips="false" pin.fieldOptions.width="250"
+    //% pin.defl=DigitalPin.C16
+
+    export function measureInCentimeters(pin: DigitalPin): number {
+        let duration = 0;
+        let RangeInCentimeters = 0;
+
+        pins.digitalWritePin(pin, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(pin, 1);
+        control.waitMicros(20);
+        pins.digitalWritePin(pin, 0);
+        duration = pins.pulseIn(pin, PulseValue.High, 50000); // Max duration 50 ms
+
+        RangeInCentimeters = duration * 153 / 29 / 2 / 100;
+
+        //if (RangeInCentimeters > 0) distanceBackup = RangeInCentimeters;
+        //else RangeInCentimeters = distanceBackup;
+
+        basic.pause(50);
+
+        return RangeInCentimeters;
+    }
+
+
 } // bit.ts
