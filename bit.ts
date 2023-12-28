@@ -288,7 +288,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     // ========== group=  //Turn on the specified LED using x, y coordinates (x is horizontal, y is vertical). (0,0) is upper left.
 
     //% group="Turn on the specified LED (x is horizontal, y is vertical)." advanced=true
-    //% block="25 LED x→ %x y↑ %y"
+    //% block="25 LED x→ %x y↑ %y" weight=3
     //% x.min=0 x.max=4
     export function plot25LED(x: number, y: boolean[]) {
         if (between(x, 0, 4)) {
@@ -297,6 +297,19 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
             if (y.length > 2 && y.get(2)) { led.plot(x, 2) } else { led.unplot(x, 2) }
             if (y.length > 3 && y.get(3)) { led.plot(x, 1) } else { led.unplot(x, 1) }
             if (y.length > 4 && y.get(4)) { led.plot(x, 0) } else { led.unplot(x, 0) }
+        }
+    }
+
+    //% group="Turn on the specified LED (x is horizontal, y is vertical)." advanced=true
+    //% block="25 LED x→ %x y↑ %y" weight=2
+    //% x.min=0 x.max=4
+    export function plot25LEDn(x: number, y: number[]) {
+        if (between(x, 0, 4)) {
+            if (y.length > 0 && y.get(0) == 1) { led.plot(x, 4) } else { led.unplot(x, 4) }
+            if (y.length > 1 && y.get(1) == 1) { led.plot(x, 3) } else { led.unplot(x, 3) }
+            if (y.length > 2 && y.get(2) == 1) { led.plot(x, 2) } else { led.unplot(x, 2) }
+            if (y.length > 3 && y.get(3) == 1) { led.plot(x, 1) } else { led.unplot(x, 1) }
+            if (y.length > 4 && y.get(4) == 1) { led.plot(x, 0) } else { led.unplot(x, 0) }
         }
     }
 
