@@ -338,24 +338,27 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
     //% pin.defl=DigitalPin.C16
 
     export function measureInCentimeters(pin: DigitalPin): number {
-        let duration = 0;
-        let RangeInCentimeters = 0;
+        //let duration = 0;
+        //let RangeInCentimeters = 0;
 
         pins.digitalWritePin(pin, 0);
         control.waitMicros(2);
         pins.digitalWritePin(pin, 1);
         control.waitMicros(20);
         pins.digitalWritePin(pin, 0);
-        duration = pins.pulseIn(pin, PulseValue.High, 50000); // Max duration 50 ms
 
-        RangeInCentimeters = duration * 153 / 29 / 2 / 100;
+        return pins.pulseIn(pin, PulseValue.High, 50000) * 0.0263793
+
+        //duration = pins.pulseIn(pin, PulseValue.High, 50000); // Max duration 50 ms
+
+        //RangeInCentimeters = duration * 153 / 29 / 2 / 100; // 0.0263793
 
         //if (RangeInCentimeters > 0) distanceBackup = RangeInCentimeters;
         //else RangeInCentimeters = distanceBackup;
 
-        basic.pause(50);
+        //basic.pause(50);
 
-        return RangeInCentimeters;
+        //return RangeInCentimeters;
     }
 
 
