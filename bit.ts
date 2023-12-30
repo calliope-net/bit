@@ -82,6 +82,7 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     //% group="Text (string)"
     //% block="format %pText length %pLength align %pFormat" weight=6
+    //% pText.shadow="bit_text"
     export function formatText(pText: any, pLength: number, pFormat: eAlign) {
         let text: string = convertToText(pText)
         if (text.length > pLength) { return text.substr(0, pLength) }
