@@ -82,11 +82,12 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
 
     //% group="Text (string)"
     //% block="format %pText length %pLength align %pFormat" weight=6
-    export function formatText(pText: string, pLength: number, pFormat: eAlign) {
-        if (pText.length > pLength) { return pText.substr(0, pLength) }
-        else if (pText.length < pLength && pFormat == eAlign.left) { return pText + replicate(" ", pLength - pText.length) }
-        else if (pText.length < pLength && pFormat == eAlign.right) { return replicate(" ", pLength - pText.length) + pText }
-        else { return pText }
+    export function formatText(pText: any, pLength: number, pFormat: eAlign) {
+        let text: string = convertToText(pText)
+        if (text.length > pLength) { return text.substr(0, pLength) }
+        else if (text.length < pLength && pFormat == eAlign.left) { return text + replicate(" ", pLength - text.length) }
+        else if (text.length < pLength && pFormat == eAlign.right) { return replicate(" ", pLength - text.length) + text }
+        else { return text }
     }
 
     //% group="Text (string)"
