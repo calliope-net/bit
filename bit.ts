@@ -343,13 +343,13 @@ Code neu programmiert von Lutz Elßner im Juli, August, September 2023
         //let duration = 0;
         //let RangeInCentimeters = 0;
 
-        pins.digitalWritePin(pin, 0);
-        control.waitMicros(2);
-        pins.digitalWritePin(pin, 1);
-        control.waitMicros(20);
-        pins.digitalWritePin(pin, 0);
+        pins.digitalWritePin(pin, 0)
+        control.waitMicros(2)
+        pins.digitalWritePin(pin, 1)
+        control.waitMicros(20)
+        pins.digitalWritePin(pin, 0)
 
-        return pins.pulseIn(pin, PulseValue.High, 50000) * 0.0263793
+        return Math.round(pins.pulseIn(pin, PulseValue.High, 50000) * 0.0263793)
 
         //duration = pins.pulseIn(pin, PulseValue.High, 50000); // Max duration 50 ms
 
